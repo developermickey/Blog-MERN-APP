@@ -17,6 +17,7 @@ app.use(
 );
 
 import userRoutes from "./routes/userRoutes.js";
+import blogRoutes from "./routes/blogRoutes.js";
 
 const PORT = process.env.PORT || 5001;
 
@@ -25,6 +26,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/blog", blogRoutes);
 
 connectDB();
 app.listen(PORT, () => {

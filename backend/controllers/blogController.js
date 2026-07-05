@@ -1,8 +1,9 @@
-import express from "express";
+import Blog from "../models/Blog.js";
 
 export const createBlog = async (req, res) => {
   try {
     const { title, description, slug } = req.body;
+
     if (!title || !description || !slug) {
       return res.status(400).json({
         success: false,
@@ -33,6 +34,7 @@ export const createBlog = async (req, res) => {
     });
   } catch (error) {
     console.error("Create Blog Error:", error);
+
     return res.status(500).json({
       success: false,
       message: error.message,
