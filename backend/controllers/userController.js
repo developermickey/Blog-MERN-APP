@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../models/User.js";
-import bcrypt, { hash } from "bcryptjs";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const userRegister = async (req, res) => {
   try {
@@ -69,6 +70,24 @@ export const userLogin = async (req, res) => {
         message: "Invalid credentials",
       });
     }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+      },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "7d",
+      },
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     return res.status(200).json({
       success: true,
