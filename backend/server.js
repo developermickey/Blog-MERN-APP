@@ -4,11 +4,15 @@ import express from "express";
 import connectDB from "./config/db.js";
 const app = express();
 
+import userRoutes from "./routes/userRoutes.js";
+
 const PORT = process.env.PORT || 5001;
 
 app.get("/health", (req, res) => {
   res.send("Hello World Dev");
 });
+
+app.use("/api/users", userRoutes);
 
 connectDB();
 app.listen(PORT, () => {
